@@ -1,72 +1,43 @@
-# Project #10 - Argent Bank API
+# Argent Bank Project
 
-This codebase contains the code needed to run the backend for Argent Bank.
+This repository contains two main parts of the Argent Bank application:
 
-## Getting Started
+- [Backend](argent-bank/backend/README.md) — The Express + MongoDB API server
+- [Frontend](argent-bank/frontend/README.md) — The React application built with Vite
 
-### Prerequisites
+Each part has its own README with detailed instructions for setup, development, and deployment.
 
-Argent Bank uses the following tech stack:
+---
 
-- [Node.js v12](https://nodejs.org/en/)
-- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+## Quick start
 
-Please make sure you have the right versions and download both packages. You can verify this by using the following commands in your terminal:
+- To start the backend, follow the instructions in [backend README](argent-bank/backend/README.md).
+- To start the frontend, follow the instructions in [frontend README](argent-bank/frontend/README.md).
 
-```bash
-# Check Node.js version
-node --version
 
-# Check Mongo version
-mongo --version
-```
 
-### Instructions
+### Dev Scripts
 
-1. Fork this repo
-1. Clone the repo onto your computer
-1. Open a terminal window in the cloned project
-1. Run the following commands:
+Before using them for the first time, make the scripts executable by running this command in your terminal:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start local dev server
-npm run dev:server
-
-# Populate database with two users
-npm run populate-db
+chmod +x bdd-start.sh bdd-stop.sh dev.sh
 ```
 
-Your server should now be running at http://locahost:3001 and you will now have two users in your MongoDB database!
+To start MongoDB, run:
 
-## Populated Database Data
+```bash
+./bdd-start.sh
+```
 
-Once you run the `populate-db` script, you should have two users in your database:
+To stop MongoDB, run:
 
-### Tony Stark
+```bash
+./bdd-stop.sh
+```
 
-- First Name: `Tony`
-- Last Name: `Stark`
-- Email: `tony@stark.com`
-- Password: `password123`
+To start the full development environment, run:
 
-### Steve Rogers
-
-- First Name: `Steve`,
-- Last Name: `Rogers`,
-- Email: `steve@rogers.com`,
-- Password: `password456`
-
-## API Documentation
-
-To learn more about how the API works, once you have started your local environment, you can visit: http://localhost:3001/api-docs
-
-## Design Assets
-
-Static HTML and CSS has been created for most of the site and is located in: `/designs`.
-
-For some of the dynamic features, like toggling user editing, there is a mock-up for it in `/designs/wireframes/edit-user-name.png`.
-
-And for the API model that you will be proposing for transactitons, the wireframe can be found in `/designs/wireframes/transactions.png`.
+```bash
+./dev.sh
+```

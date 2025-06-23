@@ -13,6 +13,7 @@ body {
 #root {
   display: flex;
   flex-direction: column;
+  min-width: 375px;
   min-height: 100vh;
 }
 
@@ -57,6 +58,7 @@ body {
 .main-nav-item {
   text-decoration: none;
   margin-right: 0.5rem;
+  white-space: nowrap;
 }
 
 .main-nav-item:hover {
@@ -157,12 +159,9 @@ body {
 }
 
 .sign-in-button {
-  /* TODO : REMOVE */
-  /* Added for react version */
   all: unset;
   cursor: pointer;
   text-decoration: underline;
-  /* - - - - - - - - - - - - */
   display: block;
   width: 100%;
   padding: 8px;
@@ -182,12 +181,6 @@ body {
   margin-top: 3rem;
   padding: 2rem;
 }
-
-/* TODO : REMOVE*/
-/* Removed for React version */
-/* .sign-in-icon {
-  font-size: 5rem;
-} */
 
 .input-remember {
   display: flex;
@@ -268,6 +261,7 @@ body {
   color: #fff;
   font-weight: bold;
   padding: 10px;
+  width: 5.7rem;
 }
 
 .header {
@@ -287,6 +281,27 @@ body {
   color: #fff;
 }
 
+.edit-inputs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.edit-inputs input {
+  padding: 10px;
+  font-size: 1rem;
+  width: 70%;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
 @media (min-width: 720px) {
   .account {
     flex-direction: row;
@@ -298,5 +313,12 @@ body {
 
   .transaction-button {
     width: 200px;
+  }
+
+  .edit-inputs {
+    flex-direction: row;
+  }
+  .edit-inputs input {
+    width: 15rem;
   }
 }

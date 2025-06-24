@@ -1,15 +1,29 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import InputWrapper from "./InputWrapper.jsx";
 import RememberMeCheckbox from "./RememberMeCheckbox.jsx";
+import { loginUser, fetchUserProfile } from "../../features/userSlice.js";
 
 export default function SignInForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ username, password, rememberMe });
+    setError(null);
+    try {
+      await dispatch(loginUser({ email: username, password })).unwrap();
+      await dispatch(fetchUserProfile());
+      navigate("/user");
+    } catch {
+      setError("Invalid credentials");
+    }
   };
 
   return (
@@ -35,6 +49,8 @@ export default function SignInForm() {
         checked={rememberMe}
         onChange={(e) => setRememberMe(e.target.checked)}
       />
+
+      {error && <p className="sign-in-error">{error}</p>}
 
       <button type="submit" className="sign-in-button">
         Sign In

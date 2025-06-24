@@ -1,32 +1,46 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { loginUserAPI, getUserProfileAPI } from "../services/authService.js";
 
-const initialState = {
-  token: null,
-  firstName: null,
-  lastName: null,
-  isAuthenticated: false,
-};
+export const loginUser = createAsyncThunk("user/login", async (credentials) => {
+  const token = await loginUserAPI(credentials);
+  return token;
+});
+
+export const fetchUserProfile = createAsyncThunk(
+  "user/fetchProfile",
+  async (_, { getState }) => {
+    const token = getState().user.token;
+    const profile = await getUserProfileAPI(token);
+    return profile;
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: {
+    token: null,
+    firstName: "",
+    lastName: "",
+    status: "idle",
+  },
   reducers: {
-    loginSuccess(state, action) {
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
-    },
-    logout(state) {
+    logout: (state) => {
       state.token = null;
-      state.firstName = null;
-      state.lastName = null;
-      state.isAuthenticated = false;
+      state.firstName = "";
+      state.lastName = "";
     },
-    setUserProfile(state, action) {
-      state.firstName = action.payload.firstName;
-      state.lastName = action.payload.lastName;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.token = action.payload;
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.firstName = action.payload.firstName;
+        state.lastName = action.payload.lastName;
+      });
   },
 });
 
-export const { loginSuccess, logout, setUserProfile } = userSlice.actions;
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;

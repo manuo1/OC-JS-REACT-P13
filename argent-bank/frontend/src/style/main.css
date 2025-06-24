@@ -182,6 +182,9 @@ body {
   padding: 2rem;
 }
 
+.sign-in-error {
+  color: #ff746c;
+}
 .input-remember {
   display: flex;
 }

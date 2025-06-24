@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import argentBankLogo from "../../assets/img/argentBankLogo.png";
 import NavUserProfile from "./NavUserProfile.jsx";
 import NavLogout from "./NavLogout.jsx";
 import NavLogin from "./NavLogin.jsx";
 
-export default function Header({ firstName }) {
+export default function Header() {
+  const { token, firstName } = useSelector((state) => state.user);
+  const isAuthenticated = !!token;
+
   return (
     <nav className="main-nav">
       <Link to="/" className="main-nav-logo">
@@ -16,7 +20,7 @@ export default function Header({ firstName }) {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        {firstName ? (
+        {isAuthenticated ? (
           <>
             <NavUserProfile firstName={firstName} />
             <NavLogout />

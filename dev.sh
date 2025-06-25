@@ -7,17 +7,32 @@ sudo systemctl start mongod
 echo "Waiting for MongoDB to start..."
 for i in {1..10}; do
   if systemctl is-active --quiet mongod; then
-    echo "MongoDB is running."
-    break
+    echo "MongoDB service is running."
+
+    # On vérifie maintenant si le port 27017 est ouvert
+    if nc -z localhost 27017; then
+      echo "MongoDB is ready to accept connections."
+      break
+    else
+      echo "MongoDB not accepting connections yet... ($i)"
+    fi
+  else
+    echo "Waiting for MongoDB service... ($i)"
   fi
-  echo "Waiting... ($i)"
   sleep 1
 done
 
+# Refaire les deux vérifications pour décider de quitter ou pas
 if ! systemctl is-active --quiet mongod; then
-  echo "MongoDB failed to start."
+  echo "MongoDB service failed to start."
   exit 1
 fi
+
+if ! nc -z localhost 27017; then
+  echo "MongoDB is not accepting connections on port 27017."
+  exit 1
+fi
+
 
 echo "Starting backend..."
 cd argent-bank/backend || exit
@@ -31,7 +46,7 @@ for i in {1..15}; do
     echo "Backend is up."
     break
   fi
-  echo "Waiting... ($i)"
+  echo "Waiting for backend... ($i)"
   sleep 2
 done
 

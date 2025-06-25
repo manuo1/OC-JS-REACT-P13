@@ -21,19 +21,19 @@ Each part has its own README with detailed instructions for setup, development, 
 Before using them for the first time, make the scripts executable by running this command in your terminal:
 
 ```bash
-chmod +x bdd-start.sh bdd-stop.sh dev.sh
+chmod +x db-start.sh db-stop.sh dev.sh
 ```
 
 To start MongoDB, run:
 
 ```bash
-./bdd-start.sh
+./db-start.sh
 ```
 
 To stop MongoDB, run:
 
 ```bash
-./bdd-stop.sh
+./db-stop.sh
 ```
 
 To start the full development environment, run:

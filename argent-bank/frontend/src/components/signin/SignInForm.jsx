@@ -20,7 +20,7 @@ export default function SignInForm() {
     try {
       await dispatch(loginUser({ email: username, password })).unwrap();
       await dispatch(fetchUserProfile());
-      navigate("/user");
+      navigate("/profile");
     } catch (err) {
       if (err.status === 400) {
         setError("Invalid email or password.");

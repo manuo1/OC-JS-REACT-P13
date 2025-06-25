@@ -4,6 +4,9 @@ import {
   getUserProfileAPI,
   updateUserProfileAPI,
 } from "../services/authService.js";
+// Try to retrieve the saved authentication token from localStorage
+// to maintain user session persistence
+const persistedToken = localStorage.getItem("token");
 
 export const loginUser = createAsyncThunk("user/login", async (credentials) => {
   const token = await loginUserAPI(credentials);
@@ -34,7 +37,7 @@ export const updateUserProfile = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    token: null,
+    token: persistedToken || null,
     firstName: "",
     lastName: "",
     status: "idle",
@@ -44,12 +47,14 @@ const userSlice = createSlice({
       state.token = null;
       state.firstName = "";
       state.lastName = "";
+      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
         state.token = action.payload;
+        localStorage.setItem("token", action.payload);
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.firstName = action.payload.firstName;

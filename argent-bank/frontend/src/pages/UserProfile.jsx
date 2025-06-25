@@ -62,11 +62,7 @@ export default function UserProfile() {
           <h1>
             Welcome back
             <br />
-            {!isEditing && (
-              <>
-                {userName.first} {userName.last}!
-              </>
-            )}
+            {!isEditing && `${firstName} ${lastName}!`}
           </h1>
 
           {isEditing ? (

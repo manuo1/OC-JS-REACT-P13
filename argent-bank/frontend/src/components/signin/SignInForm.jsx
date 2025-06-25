@@ -21,8 +21,16 @@ export default function SignInForm() {
       await dispatch(loginUser({ email: username, password })).unwrap();
       await dispatch(fetchUserProfile());
       navigate("/user");
-    } catch {
-      setError("Invalid credentials");
+    } catch (err) {
+      if (err.status === 400) {
+        setError("Invalid email or password.");
+      } else if (err.status === 401) {
+        setError("Unauthorized. Please try again.");
+      } else if (err.status === 500) {
+        setError("Server error. Please try again later.");
+      } else {
+        setError("An unexpected error occurred.");
+      }
     }
   };
 

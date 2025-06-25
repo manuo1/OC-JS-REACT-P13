@@ -8,10 +8,29 @@ import {
 // to maintain user session persistence
 const persistedToken = localStorage.getItem("token");
 
-export const loginUser = createAsyncThunk("user/login", async (credentials) => {
-  const token = await loginUserAPI(credentials);
-  return token;
-});
+export const loginUser = createAsyncThunk(
+  "user/login",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const token = await loginUserAPI(credentials);
+      return token;
+    } catch (err) {
+      if (err.response) {
+        // Add AxiosResponse object to error
+        return rejectWithValue({
+          status: err.response.status,
+          data: err.response.data,
+        });
+      } else {
+        // Add message
+        return rejectWithValue({
+          status: null,
+          data: { message: err.message },
+        });
+      }
+    }
+  }
+);
 
 export const fetchUserProfile = createAsyncThunk(
   "user/fetchProfile",

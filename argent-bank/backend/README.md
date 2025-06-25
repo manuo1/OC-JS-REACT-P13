@@ -1,72 +1,54 @@
-# Project #10 - Argent Bank API
+# Argent Bank Backend
 
-This codebase contains the code needed to run the backend for Argent Bank.
+This folder contains the backend API server for Argent Bank, built with Express and MongoDB.
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
+- Node.js v12+
+- MongoDB Community Server
 
-Argent Bank uses the following tech stack:
-
-- [Node.js v12](https://nodejs.org/en/)
-- [MongoDB Community Server](https://www.mongodb.com/try/download/community)
-
-Please make sure you have the right versions and download both packages. You can verify this by using the following commands in your terminal:
+Make sure Node and MongoDB are installed and accessible in your terminal:
 
 ```bash
-# Check Node.js version
 node --version
-
-# Check Mongo version
 mongo --version
 ```
 
-### Instructions
+## Setup and Start
 
-1. Fork this repo
-1. Clone the repo onto your computer
-1. Open a terminal window in the cloned project
-1. Run the following commands:
+1. Open a terminal at this folder (`argent-bank/backend/`)
+2. Install dependencies:
 
 ```bash
-# Install dependencies
 npm install
+```
 
-# Start local dev server
+3. Start the backend server:
+
+```bash
 npm run dev:server
+```
 
-# Populate database with two users
+4. Populate the database with example users:
+
+```bash
 npm run populate-db
 ```
 
-Your server should now be running at http://locahost:3001 and you will now have two users in your MongoDB database!
+By default, the backend runs on: `http://localhost:3001`
 
 ## Populated Database Data
 
-Once you run the `populate-db` script, you should have two users in your database:
+The populate-db script adds two users:
 
-### Tony Stark
-
-- First Name: `Tony`
-- Last Name: `Stark`
-- Email: `tony@stark.com`
-- Password: `password123`
-
-### Steve Rogers
-
-- First Name: `Steve`,
-- Last Name: `Rogers`,
-- Email: `steve@rogers.com`,
-- Password: `password456`
+- Tony Stark (tony@stark.com / password123)
+- Steve Rogers (steve@rogers.com / password456)
 
 ## API Documentation
 
-To learn more about how the API works, once you have started your local environment, you can visit: http://localhost:3001/api-docs
+Two Swagger docs are available when the backend is running:
 
-## Design Assets
+- Main API (Phase 1): [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+- Transactions API Proposal (Phase 2): [http://localhost:3001/api-docs-proposal](http://localhost:3001/api-docs-proposal)
 
-Static HTML and CSS has been created for most of the site and is located in: `/designs`.
-
-For some of the dynamic features, like toggling user editing, there is a mock-up for it in `/designs/wireframes/edit-user-name.png`.
-
-And for the API model that you will be proposing for transactitons, the wireframe can be found in `/designs/wireframes/transactions.png`.
+See the main project README for more info on these docs.

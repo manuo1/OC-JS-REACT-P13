@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUserAPI, getUserProfileAPI } from "../services/authService.js";
+import {
+  loginUserAPI,
+  getUserProfileAPI,
+  updateUserProfileAPI,
+} from "../services/authService.js";
 
 export const loginUser = createAsyncThunk("user/login", async (credentials) => {
   const token = await loginUserAPI(credentials);
@@ -12,6 +16,18 @@ export const fetchUserProfile = createAsyncThunk(
     const token = getState().user.token;
     const profile = await getUserProfileAPI(token);
     return profile;
+  }
+);
+
+export const updateUserProfile = createAsyncThunk(
+  "user/updateProfile",
+  async ({ firstName, lastName }, { getState }) => {
+    const token = getState().user.token;
+    const updatedProfile = await updateUserProfileAPI(token, {
+      firstName,
+      lastName,
+    });
+    return updatedProfile;
   }
 );
 
@@ -36,6 +52,10 @@ const userSlice = createSlice({
         state.token = action.payload;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.firstName = action.payload.firstName;
+        state.lastName = action.payload.lastName;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.firstName = action.payload.firstName;
         state.lastName = action.payload.lastName;
       });

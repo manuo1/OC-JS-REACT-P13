@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Header from "../components/common/Header.jsx";
 import Footer from "../components/common/Footer.jsx";
 import EditUserName from "../components/profile/EditUserName.jsx";
 import AccountList from "../components/profile/AccountList.jsx";
 import EditButton from "../components/profile/EditButton.jsx";
+import { updateUserProfile } from "../features/userSlice.js";
 
 export default function UserProfile() {
+  const dispatch = useDispatch();
   const { firstName, lastName } = useSelector((state) => state.user);
   const [userName, setUserName] = useState({
     first: firstName,
@@ -37,6 +39,12 @@ export default function UserProfile() {
   ];
 
   function handleSave(newName) {
+    dispatch(
+      updateUserProfile({
+        firstName: newName.first,
+        lastName: newName.last,
+      })
+    );
     setUserName(newName);
     setIsEditing(false);
   }

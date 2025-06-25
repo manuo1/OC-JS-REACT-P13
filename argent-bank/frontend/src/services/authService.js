@@ -19,3 +19,16 @@ export async function getUserProfileAPI(token) {
   );
   return response.data.body;
 }
+
+export async function updateUserProfileAPI(token, data) {
+  const response = await axios.put(
+    "http://localhost:3001/api/v1/user/profile",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data.body;
+}

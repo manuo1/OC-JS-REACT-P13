@@ -4,16 +4,15 @@ import {
   getUserProfileAPI,
   updateUserProfileAPI,
 } from "../services/authService.js";
-// Try to retrieve the saved authentication token from localStorage
-// to maintain user session persistence
-const persistedToken = localStorage.getItem("token");
+const persistedToken =
+  localStorage.getItem("token") || sessionStorage.getItem("token");
 
 export const loginUser = createAsyncThunk(
   "user/login",
-  async (credentials, { rejectWithValue }) => {
+  async ({ email, password, rememberMe }, { rejectWithValue }) => {
     try {
-      const token = await loginUserAPI(credentials);
-      return token;
+      const token = await loginUserAPI({ email, password });
+      return { token, rememberMe };
     } catch (err) {
       if (err.response) {
         // Add AxiosResponse object to error
@@ -67,13 +66,17 @@ const userSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.token = action.payload;
-        localStorage.setItem("token", action.payload);
+        state.token = action.payload.token;
+        sessionStorage.setItem("token", action.payload.token);
+        if (action.payload.rememberMe) {
+          localStorage.setItem("token", action.payload.token);
+        }
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.firstName = action.payload.firstName;

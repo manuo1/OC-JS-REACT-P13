@@ -18,7 +18,9 @@ export default function SignInForm() {
     e.preventDefault();
     setError(null);
     try {
-      await dispatch(loginUser({ email: username, password })).unwrap();
+      await dispatch(
+        loginUser({ email: username, password, rememberMe })
+      ).unwrap();
       await dispatch(fetchUserProfile());
       navigate("/profile");
     } catch (err) {

@@ -10,11 +10,42 @@ servers:
   - url: http://localhost:3001/api/v1
     description: Local development server
 
-# All routes require JWT authentication
 security:
   - bearerAuth: []
 
 paths:
+  /accounts:
+    get:
+      summary: Get the list of bank accounts for the authenticated user
+      responses:
+        '200':
+          description: List of user bank accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                      description: Account ID
+                    title:
+                      type: string
+                      example: "Argent Bank Checking (x8349)"
+                      description: Account title or label
+                    amount:
+                      type: string
+                      example: "$2,082.79"
+                      description: Account balance as formatted string
+                    description:
+                      type: string
+                      example: "Available Balance"
+                      description: Description of the balance
+        '401':
+          description: Unauthorized - missing or invalid token
+
   /accounts/{accountId}/transactions:
     get:
       summary: Get all transactions for a given account in the current month

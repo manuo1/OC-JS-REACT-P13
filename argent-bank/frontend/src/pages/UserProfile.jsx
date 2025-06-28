@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Header from "../components/common/Header.jsx";
 import Footer from "../components/common/Footer.jsx";
@@ -6,37 +6,26 @@ import EditUserName from "../components/profile/EditUserName.jsx";
 import AccountList from "../components/profile/AccountList.jsx";
 import EditButton from "../components/profile/EditButton.jsx";
 import { updateUserProfile } from "../features/userSlice.js";
+import { fetchAccounts } from "../features/accountsSlice.js";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
   const { firstName, lastName } = useSelector((state) => state.user);
+  const accounts = useSelector((state) => state.accounts.items);
+  const accountsStatus = useSelector((state) => state.accounts.status);
+  const accountsError = useSelector((state) => state.accounts.error);
+
   const [userName, setUserName] = useState({
     first: firstName,
     last: lastName,
   });
   const [isEditing, setIsEditing] = useState(false);
 
-  // mock temporaire des data
-  const accounts = [
-    {
-      id: 1,
-      title: "Argent Bank Checking (x8349)",
-      amount: "$2,082.79",
-      description: "Available Balance",
-    },
-    {
-      id: 2,
-      title: "Argent Bank Savings (x6712)",
-      amount: "$10,928.42",
-      description: "Available Balance",
-    },
-    {
-      id: 3,
-      title: "Argent Bank Credit Card (x8349)",
-      amount: "$184.30",
-      description: "Current Balance",
-    },
-  ];
+  useEffect(() => {
+    if (accountsStatus === "idle") {
+      dispatch(fetchAccounts());
+    }
+  }, [accountsStatus, dispatch]);
 
   function handleSave(newName) {
     dispatch(
@@ -78,7 +67,10 @@ export default function UserProfile() {
 
         <h2 className="sr-only">Accounts</h2>
 
-        <AccountList accounts={accounts} />
+        {accountsStatus === "loading" && <p>Loading accounts...</p>}
+        {accountsStatus === "failed" && <p>Error: {accountsError}</p>}
+
+        {accountsStatus === "succeeded" && <AccountList accounts={accounts} />}
       </main>
 
       <Footer />
